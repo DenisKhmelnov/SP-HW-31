@@ -18,6 +18,10 @@ def csv_to_json(csvFilePath, jsonFilePath, model):
                 else:
                     row["is_published"] = False
 
+            if "location_id" in row:
+                row["locations"] = [row["location_id"]]
+                del row["location_id"]
+
             record["fields"] = row
             jsonArray.append(record)
 
@@ -26,10 +30,18 @@ def csv_to_json(csvFilePath, jsonFilePath, model):
         jsonf.write(jsonString)
 
 
-csvFilePathAds = r'./datasets/ads.csv'
-jsonFilePathAds = r'./datasets/ads.json'
-csv_to_json(csvFilePathAds, jsonFilePathAds, "ads.ads")
+csvFilePathAds = r'./datasets/ad.csv'
+jsonFilePathAds = r'./datasets/ad.json'
+csv_to_json(csvFilePathAds, jsonFilePathAds, "ads.ad")
 
-csvFilePathCat = r'./datasets/categories.csv'
-jsonFilePathCat = r'./datasets/categories.json'
-csv_to_json(csvFilePathCat, jsonFilePathCat, "ads.categories")
+csvFilePathCat = r'./datasets/category.csv'
+jsonFilePathCat = r'./datasets/category.json'
+csv_to_json(csvFilePathCat, jsonFilePathCat, "ads.category")
+
+csvFilePathAds = r'./datasets/user.csv'
+jsonFilePathAds = r'./datasets/user.json'
+csv_to_json(csvFilePathAds, jsonFilePathAds, "users.user")
+
+csvFilePathCat = r'./datasets/location.csv'
+jsonFilePathCat = r'./datasets/location.json'
+csv_to_json(csvFilePathCat, jsonFilePathCat, "users.location")
