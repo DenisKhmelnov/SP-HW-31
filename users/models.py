@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class Location(models.Model):
     name = models.CharField(max_length=200)
     lat = models.DecimalField(max_digits=10, decimal_places=6, null=True)
@@ -18,6 +19,7 @@ class UserRoles(models.TextChoices):
     MEMBER = 'member', _('member')
     MODERATOR = 'moderator', _('moderator')
     ADMIN = 'admin', _('admin')
+
 
 class User(models.Model):
     first_name = models.CharField(max_length=200, null=True)

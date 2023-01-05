@@ -187,71 +187,71 @@ class AdViewSet(ModelViewSet):
 #
 #
 # # Category views
-#
-# class CategoryListView(ListView):
-#     model = Category
-#     queryset = Category.objects.order_by("name")
-#
-#     def get(self, request, *args, **kwargs):
-#         super().get(request, *args, **kwargs)
-#
-#         return JsonResponse([{
-#             'id': cat.pk,
-#             'name': cat.name,
-#         } for cat in self.object_list], safe=False)
-#
-#
-# class CategoryDetailView(DetailView):
-#     model = Category
-#
-#     def get(self, request, *args, **kwargs):
-#         request = self.get_object()
-#         return JsonResponse({"id": request.pk, "name": request.name})
-#
-#
-# @method_decorator(csrf_exempt, name="dispatch")
-# class CategoryCreateView(CreateView):
-#     model = Category
-#     fields = "__all__"
-#
-#     def post(self, request, *args, **kwargs):
-#         data = json.loads(request.body)
-#         new_cat = Category.objects.create(**data)
-#
-#         return JsonResponse({
-#             'pk': new_cat.pk,
-#             'name': new_cat.name,
-#         })
-#
-#
-# @method_decorator(csrf_exempt, name="dispatch")
-# class CategoryUpdateView(UpdateView):
-#     model = Category
-#     fields = "__all__"
-#
-#     def patch(self, request, *args, **kwargs):
-#         super().post(request, *args, **kwargs)
-#
-#         data = json.loads(request.body)
-#         self.object.name = data["name"]
-#         self.object.save()
-#
-#         return JsonResponse({
-#             'pk': self.object.pk,
-#             'name': self.object.name,
-#         })
-#
-#
-# @method_decorator(csrf_exempt, name="dispatch")
-# class CategoryDeleteView(DeleteView):
-#     model = Category
-#     success_url = "/"
-#
-#     def delete(self, request, *args, **kwargs):
-#         cat = self.get_object()
-#         cat_pk = cat.pk
-#         super().delete(request, *args, **kwargs)
-#
-#         return JsonResponse({
-#             'deleted pk': cat_pk,
-#         })
+
+class CategoryListView(ListView):
+    model = Category
+    queryset = Category.objects.order_by("name")
+
+    def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
+
+        return JsonResponse([{
+            'id': cat.pk,
+            'name': cat.name,
+        } for cat in self.object_list], safe=False)
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get(self, request, *args, **kwargs):
+        request = self.get_object()
+        return JsonResponse({"id": request.pk, "name": request.name})
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class CategoryCreateView(CreateView):
+    model = Category
+    fields = "__all__"
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        new_cat = Category.objects.create(**data)
+
+        return JsonResponse({
+            'pk': new_cat.pk,
+            'name': new_cat.name,
+        })
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class CategoryUpdateView(UpdateView):
+    model = Category
+    fields = "__all__"
+
+    def patch(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs)
+
+        data = json.loads(request.body)
+        self.object.name = data["name"]
+        self.object.save()
+
+        return JsonResponse({
+            'pk': self.object.pk,
+            'name': self.object.name,
+        })
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class CategoryDeleteView(DeleteView):
+    model = Category
+    success_url = "/"
+
+    def delete(self, request, *args, **kwargs):
+        cat = self.get_object()
+        cat_pk = cat.pk
+        super().delete(request, *args, **kwargs)
+
+        return JsonResponse({
+            'deleted pk': cat_pk,
+        })

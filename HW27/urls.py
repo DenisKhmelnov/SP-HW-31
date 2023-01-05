@@ -19,6 +19,8 @@ from django.urls import path, include
 
 import ads.views
 from HW27 import settings
+from rest_framework.routers import SimpleRouter
+from users.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +28,11 @@ urlpatterns = [
     path("cat/", include('ads.urls.cat')),
     path("user/", include('users.urls'))
 ]
+
+router = SimpleRouter()
+router.register('location', LocationViewSet)
+
+urlpatterns += router.urls
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

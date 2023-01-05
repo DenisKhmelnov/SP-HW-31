@@ -61,5 +61,5 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 class LocationModelSerializer(serializers.ModelSerializer):
     model = Location
-    fields = ["name"]
+    fields = "__all__"
 

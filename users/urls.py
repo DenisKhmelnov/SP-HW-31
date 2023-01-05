@@ -10,7 +10,4 @@ urlpatterns = [
     path('<int:pk>/delete', UserDeleteView.as_view()),
 ]
 
-router = SimpleRouter()
-router.register('location', LocationViewSet)
 
-urlpatterns += router.urls
