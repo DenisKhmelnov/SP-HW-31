@@ -60,6 +60,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class LocationModelSerializer(serializers.ModelSerializer):
-    model = Location
-    fields = "__all__"
+    class Meta:
+        model = Location
+        fields = "__all__"
 
