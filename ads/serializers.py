@@ -55,4 +55,4 @@ class SelectionDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Selection
-        fields = ["id","name"]
+        fields = ["__all__"]

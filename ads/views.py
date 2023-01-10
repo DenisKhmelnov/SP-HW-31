@@ -3,12 +3,10 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-
-from ads.models import Selection
-from ads.permissions import IsOwner
+from ads.permissions import IsOwner, IsOwnerOrStaff
 from ads.serializers import *
 
 
@@ -23,6 +21,9 @@ class AdViewSet(ModelViewSet):
     default_permission = [AllowAny()]
     permissions = {
         "retrieve": [IsAuthenticated()],
+        "update": [IsAuthenticated(), IsOwnerOrStaff()],
+        "partial_update": [IsAuthenticated(), IsOwnerOrStaff()],
+        "delete": [IsAuthenticated(), IsOwnerOrStaff()]
     }
 
     def get_permissions(self):
@@ -126,32 +127,55 @@ class CategoryDeleteView(DeleteView):
 
 
 # Selection views
-# class UserCreateView(CreateAPIView):
-#     model = Selection
-#     serializer_class = SelectionCreateSerializer
-#     permission_classes = [AllowAny]
-
-class SelectionViewSet(ModelViewSet):
+class SelectionCreateView(CreateAPIView):
     queryset = Selection.objects.all()
-    default_serializer = SelectionSerializer
+    serializer_class = SelectionCreateSerializer
+    permission_classes = [AllowAny]
 
-    serializer_classes = {
-        "list": SelectionListSerializer,
-        "retrieve": SelectionDetailSerializer,
-        "create": SelectionCreateSerializer,
-    }
 
-    default_permission = [AllowAny()]
-    permissions = {
-        "retrieve": [IsAuthenticated()],
-        "create": [AllowAny()],
-        "update": [IsAuthenticated(), IsOwner()],
-        "partial_update": [IsAuthenticated(), IsOwner()],
-        "delete": [IsAuthenticated(), IsOwner()],
-    }
+class SelectionListView(ListAPIView):
+    queryset = Selection.objects.all()
+    serializer_class = SelectionListSerializer
+    permission_classes = [IsAuthenticated]
 
-    def get_permissions(self):
-        return self.permissions.get(self.action, self.default_permission)
 
-    def get_serializer_class(self):
-        return self.serializer_classes.get(self.action, self.default_serializer)
+class SelectionDetailView(RetrieveAPIView):
+    queryset = Selection.objects.all()
+    serializer_class = SelectionDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class SelectionUpdateView(UpdateAPIView):
+    queryset = Selection.objects.all()
+    serializer_class = SelectionSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+
+class SelectionDeleteView(DestroyAPIView):
+    queryset = Selection.objects.all()
+    serializer_class = SelectionSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+# class SelectionViewSet(ModelViewSet):
+#     queryset = Selection.objects.all()
+#     default_serializer = SelectionSerializer
+#
+#     serializer_classes = {
+#         "list": SelectionListSerializer,
+#         "retrieve": SelectionDetailSerializer,
+#     }
+#
+#     default_permission = [AllowAny()]
+#     permissions = {
+#         "retrieve": [IsAuthenticated()],
+#         "create": [AllowAny()],
+#         "update": [IsAuthenticated(), IsOwner()],
+#         "partial_update": [IsAuthenticated(), IsOwner()],
+#         "delete": [IsAuthenticated(), IsOwner()],
+#     }
+#
+#     def get_permissions(self):
+#         return self.permissions.get(self.action, self.default_permission)
+#
+#     def get_serializer_class(self):
+#         return self.serializer_classes.get(self.action, self.default_serializer)

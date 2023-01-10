@@ -16,8 +16,6 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
-from ads.views import SelectionViewSet
 from HW27 import settings
 from rest_framework.routers import SimpleRouter
 from users.views import *
