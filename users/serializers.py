@@ -28,15 +28,18 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         new_user = User.objects.create(**validated_data)
+        new_user.set_password(validated_data["password"])
 
         for loc in self._locations:
             location, _ = Location.objects.get_or_create(name=loc)
             new_user.locations.add(location)
+
+        new_user.save()
         return new_user
 
     class Meta:
         model = User
-        exclude = ["password"]
+        fields = "__all__"
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

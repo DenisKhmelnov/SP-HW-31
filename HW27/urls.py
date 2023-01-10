@@ -17,7 +17,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-import ads.views
+from ads.views import SelectionViewSet
 from HW27 import settings
 from rest_framework.routers import SimpleRouter
 from users.views import *
@@ -26,7 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("ad/", include('ads.urls.ad')),
     path("cat/", include('ads.urls.cat')),
-    path("user/", include('users.urls'))
+    path("user/", include('users.urls')),
+    path("selection/", include('ads.urls.selection')),
 ]
 
 router = SimpleRouter()
