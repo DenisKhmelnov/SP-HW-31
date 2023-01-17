@@ -26,9 +26,9 @@ class UserRoles(models.TextChoices):
 
 class User(AbstractUser):
     role = models.CharField(max_length=10, choices=UserRoles.choices)
-    age = models.PositiveSmallIntegerField()
+    age = models.PositiveSmallIntegerField(null=True, blank=True)
     locations = models.ManyToManyField("Location")
-    birth_date = models.DateField(verbose_name="Дата рождения", validators=[check_birth_date], null=True)
+    birth_date = models.DateField(verbose_name="Дата рождения", validators=[check_birth_date], null=True, blank=True)
     email = models.EmailField(unique=True, blank=True, null=True, validators=[check_email])
 
     class Meta:
