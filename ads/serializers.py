@@ -49,6 +49,7 @@ class SelectionSerializer(serializers.ModelSerializer):
 class SelectionCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Selection
+        fields = "__all__"
 
 
 class SelectionDetailSerializer(serializers.ModelSerializer):
